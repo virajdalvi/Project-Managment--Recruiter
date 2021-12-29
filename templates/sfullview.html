@@ -1,0 +1,187 @@
+
+{% load static %}
+<!Doctype html>
+<head>
+    <meta charset="UTF-8">
+        <meta name="description" content="This is a project management website.Uploading of projects and grading takeplace on a single platform">
+        <meta name="keywords" content="Project Management">
+        <meta name="author" content="Ketki Chavan">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet"  href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/styles.css' %}">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/fee06b6511.js" crossorigin="anonymous"></script>
+</head>
+<style>
+    .fdb-block {
+      border-bottom: 1px solid var(--light);
+    }
+    .submit a {
+    color: white;
+    background-color: #5A827F;
+    padding: 5px 11px;
+    border-style: 2px solid
+}
+
+    .submit a:hover {
+    border-color: white;}
+    .pd{
+      padding-top: 25px;
+    }
+  </style>
+</head>
+<script>
+  var page = window.location.pathname.split('/')
+  page = page[page.length - 1]
+
+  var nav = document.querySelector('a[href="' + page + '"]')
+  if (nav) {
+    nav.classList.add('active')
+  }
+</script>
+
+{% if user.is_authenticated %}      
+  <nav class="navbar  sticky-top  justify-content-between" style="background-color: #5f34e2;">
+    <div>
+      <a href="/sdash/">
+      <i class="fas fa-user-graduate fa-2x" style = "color : #fff"></i>
+    </a>
+
+      &nbsp;
+    
+    <a class="navbar-brand text-white">Hello, {{user.first_name}}</a>
+    </div>
+
+      <div class="navbar justify-content-end" >    
+        <a class="btn btn-outline-light m-1" href="/sprojview/">PROJECT LIST</a>
+      </div> 
+  </nav>
+  {% endif %}
+  {% for j in gr %} 
+   <div> 
+    <section class="fdb-block">
+                <div class="container class=fdb-touch">
+                  <div class="row mt-5 align-items-center">
+                    <div class="col-12 col-sm-10 col-md-8 col-md-8 m-auto col-lg-4 text">
+                      <div class="fdb-box shadow pb-5 pt-5 pl-3 pr-3 rounded fdb-touch">
+                        <div class="text-center">
+                          <i class="fas fa-check-circle" style="color:green"></i>
+                          <b>Project Graded</b>
+                        </div>
+                        <hr>
+                        <div class="card-body">
+                          <h5 class="card-title">Average marks scored: {{j.avgtotal}}</h5>
+                            <p class="card-text">Suggestions: {{j.suggestions}}</p>
+                        </div>
+                      </div>
+                    </div>                    
+                  </div>
+                </div>
+    </section>
+  </div>
+  {% endfor %}
+      
+<section class="fdb-block">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-12 col-md-8 col-lg-7 col-md-5">
+            <div class="fdb-box fdb-touch">
+              <div class="row text-center" >
+                <div class="col">
+                  <h1>Project</h1>
+                </div>
+              </div>
+              {% for i in np %}
+              <div class="row mt-4">
+                <div class="col">
+                  <label>Project ID </label><h3>{{i.id}}</h3>
+                </div>
+              </div>
+              <hr>
+              <div class="row mt-4">
+                <div class="col">
+                  <label>Student Name</label><h3>{{i.Student_name}}</h3>
+                </div>
+              </div>
+             
+              <hr>
+              <div class="row mt-4">
+                <div class="col">
+                  <label>Student Username</label><h3>{{i.Username}}</h3>
+                </div>
+              </div>
+              <hr>
+              <div class="row mt-4">
+                <div class="col">
+                  <label>Semester</label><h3>{{i.Semester}}</h3>
+                </div>
+              </div>
+              <hr>
+              <div class="row mt-4">
+                <div class="col">
+                  <label>Roll No</label><h3>{{i.Roll_no}}</h3>
+                </div>
+              </div>
+              <hr>
+              <div class="row mt-4">
+                <div class="col">
+                  <label>Div</label><h3>{{i.Div}}</h3>
+                </div>
+              </div>
+              <hr>
+              <div class="row mt-4">
+                <div class="col">
+                  <label>Project Name</label><h3>{{i.Project_name}}</h3>
+                </div>
+              </div>
+              <hr>
+              <div class="row mt-4">
+                <div class="col">
+                  <label>Subject</label><h3>{{i.Subject}}</h3>
+                </div>
+              </div>
+              <hr>
+              
+              <div class="row mt-4">
+                <div class="col">
+                  <label>Project Description</label><h6>{{i.Project_description}}</h6>
+                </div>
+              </div>
+              <hr>
+              <div class="row mt-4">
+                <div class="col">
+                  <label>Project Members</label><h3>{{i.Project_members}}</h3>
+                </div>
+              </div>
+              <hr>
+              <div class="row mt-4">
+                <div class="col">
+                  <label>Teacher Username</label><h3>{{i.Teacher_username}}</h3>
+                </div>
+              </div>
+              <div class="row mt-4">
+                <div class="col">
+                  <label>Output Images</label>
+                  <img src="{{ i.Output_Image.url}}" >
+                </div>
+              </div>
+              <hr>
+              <div class="row mt-4">
+                <div class="col">
+                  <label>Git Link</label>
+                  <a href="{{i.Git_link}}">git link</a>
+                </div>
+              </div>
+              <hr>
+              
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    {% endfor %}
+  

@@ -1,0 +1,87 @@
+{% load static %}
+<!Doctype html>
+<head>
+  <title>HOME</title>
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+  <link type="text/css" rel="stylesheet" href="{% static 'css/froala_blocks.css' %}">
+  <link rel="stylesheet" type= "text/css" href="{% static 'styles/styles.css' %}">
+  <style>
+    .fdb-block {
+      border-bottom: 1px solid var(--light);
+    }
+  </style>
+</head>
+<script>
+  var page = window.location.pathname.split('/')
+  page = page[page.length - 1]
+
+  var nav = document.querySelector('a[href="' + page + '"]')
+  if (nav) {
+    nav.classList.add('active')
+  }
+</script>
+
+
+
+<body>
+  <!-- Image and text -->
+<nav class="navbar " style="background-color: #5f34e2;">
+  <a class="navbar-brand text-white" href="#">
+   
+    <h1>  <i class="fas fa-project-diagram fa"></i>
+      Project Grader</h1>
+  
+  </a>
+ 
+</nav>
+         
+    <section class="fdb-block" >
+                <div class="container">
+                  
+                  
+                  <!--Teacher section-->
+                  <div class="row mt-5 align-items-center">
+                    <div class="col-12 col-sm-10 col-md-8 col-md-8 m-auto col-lg-4 text-center">
+                      <div class="fdb-box shadow pb-5 pt-5 pl-3 pr-3 rounded">
+                        <h2 class="text-primary">For Teachers</h2>
+                        <img class="img-fluid" src="{% static 'images/t.png' %}" alt="Girl in a jacket" width="150" height="150">
+
+                        <!--tlogin button-->
+                        <form action = 'tlogin' method = 'GET'>
+                          <button type="submit" class="btn btn-primary mt-4" action='tlogin'>Login</button>
+                        </form>
+
+                        <!--registertr button-->
+                        <form action = 'registertr' method = 'GET' >                      
+                            <button type="submit" class="btn btn-primary mt-4" action='registertr'>Register</button>  
+                        </form>  
+                      </div>
+                    </div>
+
+                    <!--Student section-->
+                    <div class="col-12 col-sm-10 col-md-8 col-md-8 m-auto col-lg-4 text-center pt-4 pt-lg-0">
+                      <div class="fdb-box shadow pb-5 pt-5 pl-3 pr-3 rounded">
+                        <h2 class="text-primary">For Students</h2>
+                        <img class="img-fluid" src="{% static 'images/s.png' %}" alt="Girl in a jacket" width="200" height="200">
+
+                        <form action = 'slogin' method = 'GET' >
+                          <button type="submit" class="btn btn-primary mt-4" action='slogin'>Login</button>
+                        </form>
+
+                        <form action = 'registerstud' method = 'GET' >
+                          <button type="submit" class="btn btn-primary mt-4" action='registerstud'>Register</button>
+                        </form>         
+          
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+           
+  
+
+  
+</body>

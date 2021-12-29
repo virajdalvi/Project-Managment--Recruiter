@@ -1,0 +1,79 @@
+{% load static %}
+<!Doctype html>
+<head>
+    <meta charset="UTF-8">
+        <meta name="description" content="This is a project management website.Uploading of projects and grading takeplace on a single platform">
+        <meta name="keywords" content="Project Management">
+        <meta name="author" content="Ketki Chavan">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet"  href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/styles.css' %}">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/fee06b6511.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+</head>
+{% if user.is_authenticated %}
+      
+      
+<nav class="navbar  sticky-top  justify-content-between" style="background-color: #5f34e2;">
+  <div>
+    <a href="/sdash/">
+    <i class="fas fa-user-graduate fa-2x" style = "color : #fff"></i>
+  </a>
+
+    &nbsp;
+   
+  <a class="navbar-brand text-white">Hello, {{user.first_name}}</a>
+  </div>
+
+    <div class="navbar justify-content-end" >    
+      <a class="btn btn-outline-light m-1" href="/sdash/">DASHBOARD</a>
+    </div> 
+</nav>
+  {% endif %}
+          
+</nav>
+
+<body>
+<section class="fdb-block" style="background-image: url({% static 'images/6.svg' %});">
+  
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 col-lg-7 col-xl-5 text-center">
+        <div class="fdb-box">
+          
+          <br>
+          <div class="row">
+            <div class="col">
+                
+                <form method="post" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <h2>New Project</h2>
+                  {{ form }}
+                  <div class="row">
+                    <div class="col"><br>
+                      <button class = "btn btn-primary" id="proj" type="submit">Submit New Project</button>
+                    </div>
+                    
+                  </div>
+                  
+                </form>
+                
+            </div>
+          </div>
+        </div>
+      </div>
+</section>
+</body>
+<script>
+document.getElementById("proj").addEventListener("click", function() {
+  
+  localStorage.setItem('Projectadded',true);
+});
+</script>
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+</body>
