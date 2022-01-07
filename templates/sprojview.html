@@ -1,126 +1,142 @@
 {% load static %}
 {% block content %}
 <!Doctype html>
-<head>
-    <meta charset="UTF-8">
-        <meta name="description" content="This is a project management website.Uploading of projects and grading takeplace on a single platform">
-        <meta name="keywords" content="Project Management">
-        <meta name="author" content="Ketki Chavan">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet"  href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{% static 'styles/styles.css' %}">
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-<script src="https://kit.fontawesome.com/fee06b6511.js" crossorigin="anonymous"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 
-<style>
-  .card {
-      margin: 0 auto; /* Added */
-      float: none; /* Added */
-      margin-bottom: 10px; /* Added */
+<head>
+  <meta charset="UTF-8">
+  <meta name="description"
+    content="This is a project management website.Uploading of projects and grading takeplace on a single platform">
+  <meta name="keywords" content="Project Management">
+  <meta name="author" content="Ketki Chavan">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="{% static 'styles/styles.css' %}">
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/fee06b6511.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+  <style>
+    .card {
+      margin: 0 auto;
+      /* Added */
+      float: none;
+      /* Added */
+      margin-bottom: 10px;
+      /* Added */
       margin-left: 50px;
       margin-right: 50px;
       margin-top: 50px;
-}
-.end{
-  padding-left: 98%;
-}
-.submit a {
-    color: white;
-    background-color: #5A827F;
-    padding: 5px 11px;
-    border-style: 2px solid
-}
+    }
+
+    .end {
+      padding-left: 98%;
+    }
+
+    .submit a {
+      color: white;
+      background-color: #5A827F;
+      padding: 5px 11px;
+      border-style: 2px solid
+    }
 
     .submit a:hover {
-    border-color: white;
-}```
+      border-color: white;
+    }
 
-</style>
+    ```
+  </style>
 </head>
 
 {% if user.is_authenticated %}
-      
-      
+
+
 <nav class="navbar  sticky-top  justify-content-between" style="background-color: #5f34e2;">
   <div>
     <a href="/sdash/">
-    <i class="fas fa-user-graduate fa-2x" style = "color : #fff"></i>
-  </a>
+      <i class="fas fa-user-graduate fa-2x" style="color : #fff"></i>
+    </a>
 
     &nbsp;
-   
-  <a class="navbar-brand text-white">Hello, {{user.first_name}}</a>
+
+    <a class="navbar-brand text-white">Hello, {{user.first_name}}</a>
   </div>
 
-    <div class="navbar justify-content-end" >    
-      <a class="btn btn-outline-light m-1" href="/sdash/">DASHBOARD</a>
-    </div> 
+  <div class="navbar justify-content-end">
+    <a class="btn btn-outline-light m-1" href="/sdash/">DASHBOARD</a>
+  </div>
 </nav>
-  {% endif %}
-          
+{% endif %}
+
 </nav>
+
 <body>
-{% csrf_token %}
-{% for new in newprojs %}
-{% if current_user == new.Username %}
-<div class="card">
-  <h4 class="card-header text-white " style="background-color: #5f34e2;">Project ID: {{new.id}}</h4>
-  <div class="card-body">
-    <h2 class="card-title">{{new.Project_name}}</h2>
-    <h3 class="card-text">SEMESTER : {{new.Semester}}</h3>
-    <a href="{% url 'sfullview' new.pk %}" class="btn btn-primary">Full View</a>
-    <a href="{% url 'editproj' new.pk %}" class="btn btn-secondary">Edit Project</a>
-    <a href="{% url 'delete_proj' new.pk %}" class="end" >
-    <i id="delete" class="close fas fa-trash fa-2x float-right" aria-hidden="true" style="color : red;"></i>
-    </a>
+  {% csrf_token %}
+  {% for new in newprojs %}
+  {% if current_user == new.Username or current_user in single_list %}
+  <div class="card">
+    <h4 class="card-header text-white " style="background-color: #5f34e2;">Project ID: {{new.id}}</h4>
+    <div class="card-body">
+      <h2 class="card-title">{{new.Project_name}}</h2>
+      <h3 class="card-text">SEMESTER : {{new.Semester}}</h3>
+      <a href="{% url 'sfullview' new.pk %}" class="btn btn-primary">Full View</a>
+      <a href="{% url 'editproj' new.pk %}" class="btn btn-secondary">Edit Project</a>
+      <a href="{% url 'delete_proj' new.pk %}" class="end">
+        <i id="delete" class="close fas fa-trash fa-2x float-right" aria-hidden="true" style="color : red;"></i>
+      </a>
+    </div>
   </div>
-</div> 
-</div>
+  </div>
 
-{% endif %}   
-{% endfor %}
-{% endblock %} 
-<script>
-  $('.close').click(function () {
+  {% endif %}
+  {% endfor %}
+  {% endblock %}
+  <script>
+    $('.close').click(function () {
       var $target = $(this).parents('li');
       $target.hide('slow', function () { $target.remove(); });
-  })
-  document.getElementById("delete").addEventListener("click", function() {
-  
-  localStorage.setItem('Projectdeleted',true);
+    })
+    document.getElementById("delete").addEventListener("click", function () {
 
-});
-$( document ).ready(function() {
-    console.log( "ready!" );
-    if(localStorage.getItem('Projectdeleted')) {
-  console.log('entered if ')
-  Toastify({
-    text: "Project Deleted Successfully!",
-    duration: 50000,
-    close: true, 
-    backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
-  }).showToast();
-  localStorage.removeItem('Projectdeleted')
-  
-}
-if(localStorage.getItem('Projectedited')) {
-  console.log('entered if ')
-  Toastify({
-    text: "Project Edited Successfully!",
-    duration: 50000,
-    close: true, 
-    backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
-  }).showToast();
-  localStorage.removeItem('Projectedited')
-  
-}
-});
-console.log(localStorage.getItem('Projectdeleted'))
+      localStorage.setItem('Projectdeleted', true);
 
-</script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    });
+    $(document).ready(function () {
+      console.log("ready!");
+      if (localStorage.getItem('Projectdeleted')) {
+        console.log('entered if ')
+        Toastify({
+          text: "Project Deleted Successfully!",
+          duration: 50000,
+          close: true,
+          backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+        }).showToast();
+        localStorage.removeItem('Projectdeleted')
+
+      }
+      if (localStorage.getItem('Projectedited')) {
+        console.log('entered if ')
+        Toastify({
+          text: "Project Edited Successfully!",
+          duration: 50000,
+          close: true,
+          backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+        }).showToast();
+        localStorage.removeItem('Projectedited')
+
+      }
+    });
+    console.log(localStorage.getItem('Projectdeleted'))
+
+  </script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </body>

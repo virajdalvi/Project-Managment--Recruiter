@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Sreg, Testscore
+from .models import Questionbank, Sreg, Testscore
 from .models import Treg
 from .models import nproj
 from .models import Newproj
@@ -13,4 +13,7 @@ admin.site.register(Newproj)
 admin.site.register(Grade)
 admin.site.register(StudentsProfile)
 admin.site.register(TestSeries)
+
+
 admin.site.register(Testscore)
+admin.site.register(Questionbank)

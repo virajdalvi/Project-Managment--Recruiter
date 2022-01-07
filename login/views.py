@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
+from functools import reduce
 
 from django.http import HttpResponse
+from rest_framework.serializers import Serializer
 from .models import Sreg, StudentsProfile
 from .models import Treg
 from .models import nproj
@@ -22,8 +24,50 @@ from operator import itemgetter
 import psycopg2
 from login.forms import StudentsProfileForm
 
+# rest
+from django.shortcuts import render
+from rest_framework.views import APIView
+from . models import *
+from rest_framework.response import Response
+from . serializer import *
+from login import serializer
+
+
+class TestscoreView(APIView):
+
+    serializer_class = ScoreSerializer
+
+    def get(self, request):
+        detail = [{"username": detail.username, "semester": detail.semester, "score": detail.score, "testkey": detail.testkey}
+                  for detail in Testscore.objects.all()]
+        return Response(detail)
+
+    def post(self, request):
+
+        serializer = ScoreSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
+
+
+class QuestionbankView(APIView):
+    serializer_class = QuestionSerializer
+
+    def get(self, request):
+        que = [{"semester": que.semester, "question": que.question, "optionA": que.optionA, "optionB": que.optionB, "optionC": que.optionC, "optionD": que.optionD, "answer": que.answer, "testkey": que.testkey, "teacher_username": que.teacher_username, "quizname": que.quizname}
+               for que in Questionbank.objects.all()]
+        return Response(que)
+
+    def post(self, request):
+
+        serializer = QuestionSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
 
 # Create your views here.
+
+
 def index(request):
     return render(request, 'index.html')
 
@@ -235,7 +279,20 @@ def miniprojview(request):
         print(str(i.Teacher_username))
 
     # print(newprojs.Project_name)
-    return render(request, 'miniprojview.html', {'current_user': current_user, 'newprojs': newprojs})
+    g = []
+    h = []
+    for i in newprojs:
+        g.append(i.Teacher_username.split(","))
+    single_list1 = reduce(lambda x, y: x+y, g)
+    print(single_list1)
+    h = zip(g, newprojs)
+    h = list(h)
+    result = []
+    for new in h:
+        if current_user in new[0]:
+            result.append(new[1])
+
+    return render(request, 'miniprojview.html', {'current_user': current_user, 'newprojs': newprojs, 'single_list1': single_list1, 'result': result})
 
 
 def sdash(request):
@@ -250,12 +307,17 @@ def sprojview(request):
     # print(newprojs.Project_name)
     print('current user : ', current_user)
     print('newprojs : ', newprojs)
+    f = []
     for i in newprojs:
-        if current_user == i.Username:
-            print('Entered if ')
-            print('username:', i.Username)
+        f.append(i.Project_members.split(","))
+    single_list = reduce(lambda x, y: x+y, f)
+    print(single_list)
+    # for i in newprojs:
+    # if current_user == i.Username:
+    #print('Entered if ')
+    #print('username:', i.Username)
 
-    return render(request, 'sprojview.html', {'current_user': current_user, 'newprojs': newprojs})
+    return render(request, 'sprojview.html', {'current_user': current_user, 'newprojs': newprojs, 'single_list': single_list})
 
 
 class CreateNewprojView(CreateView):  # new
@@ -277,8 +339,10 @@ def grades(request, pk):
         pid = request.POST["pid"]
         suggestions = request.POST["suggestions"]
         avgtotal = request.POST["avgtotal"]
+        endorsement = request.POST["endorsement"]
+        endorsement = int(endorsement)
         gr = Grade.objects.create(
-            pid=pid, suggestions=suggestions, avgtotal=avgtotal)
+            pid=pid, suggestions=suggestions, avgtotal=avgtotal, endorsement=endorsement)
         gr.save()
         print("Success")
         # return render(request,'Tinfo.html')
@@ -330,7 +394,12 @@ def editproj(request, pk):
         if form.is_valid():
             form.save()
             print('Saved')
-            return render(request, 'sprojview.html', {'current_user': current_user, 'newprojs': newprojs})
+            f = []
+            for i in newprojs:
+                f.append(i.Project_members.split(","))
+            single_list = reduce(lambda x, y: x+y, f)
+            print(single_list)
+            return render(request, 'sprojview.html', {'current_user': current_user, 'newprojs': newprojs, 'single_list': single_list})
     else:
         print('Entered else')
         form = NewprojForm(instance=ins)
@@ -350,7 +419,7 @@ def Student_profile(request):
         if form.is_valid():
             files = request.POST['resume']
             sd = StudentsProfile.objects.create(
-                student_id=temp1, student_username=temp2, project_score=30, sem_average_marks=form['sem_average_marks'].value(), test_score=form['test_score'].value(), test_series_id=form['test_series_id'].value(), language=form['language'].value(), current_sem=form['current_sem'].value(), resume=files)
+                student_id=temp1, student_username=temp2, project_score=30, sem_average_marks=form['sem_average_marks'].value(), language=form['language'].value(), current_sem=form['current_sem'].value(), resume=files)
             sd.save()
             print(sd)
             print('Saved')
@@ -369,8 +438,7 @@ def student_profile2(request):
         st.student_username = temp2
         st.project_score = '30'
         st.sem_average_marks = request.POST['sem_average_marks']
-        st.test_score = request.POST['test_score']
-        st.test_series_id = request.POST['test_series_id']
+        st.sem_average_marks = float(st.sem_average_marks)
         st.language = request.POST['language']
         st.current_sem = request.POST['current_sem']
         st.resume = request.FILES['resume']

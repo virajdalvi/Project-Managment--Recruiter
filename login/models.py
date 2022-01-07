@@ -25,7 +25,7 @@ class nproj(models.Model):
     pname = models.CharField(max_length=100)
     subj = models.CharField(max_length=100)
     tuser = models.CharField(max_length=100)
-    desc = models.CharField(max_length=100)
+    desc = models.TextField()
     git = models.URLField(max_length=200)
     pmem = models.CharField(max_length=200)
     file = models.ImageField(upload_to='images/')
@@ -40,7 +40,7 @@ class Newproj(models.Model):
     Project_name = models.CharField(max_length=100)
     Subject = models.CharField(max_length=100)
     Teacher_username = models.CharField(max_length=100)
-    Project_description = models.CharField(max_length=100)
+    Project_description = models.TextField()
     Git_link = models.URLField(max_length=200)
     Project_members = models.CharField(max_length=200)
     Output_Image = models.ImageField(upload_to='images/')
@@ -50,15 +50,14 @@ class Grade(models.Model):
     pid = models.IntegerField()
     suggestions = models.TextField()
     avgtotal = models.IntegerField()
+    endorsement = models.IntegerField()
 
 
 class StudentsProfile(models.Model):
-    student_id = models.IntegerField()
+    student_id = models.FloatField()
     student_username = models.CharField(max_length=50)
     project_score = models.IntegerField()
     sem_average_marks = models.IntegerField()
-    test_score = models.IntegerField()
-    test_series_id = models.IntegerField()
     language = models.CharField(max_length=100)
     current_sem = models.CharField(max_length=30)
     resume = models.FileField(upload_to="resumes/")
@@ -77,3 +76,18 @@ class Testscore(models.Model):
     username = models.CharField(max_length=50)
     semester = models.CharField(max_length=50)
     score = models.IntegerField()
+    testkey = models.CharField(max_length=10)
+
+
+class Questionbank(models.Model):
+
+    semester = models.CharField(max_length=50)
+    question = models.CharField(max_length=5000)
+    optionA = models.CharField(max_length=500)
+    optionB = models.CharField(max_length=500)
+    optionC = models.CharField(max_length=500)
+    optionD = models.CharField(max_length=500)
+    answer = models.CharField(max_length=500)
+    testkey = models.CharField(max_length=10)
+    teacher_username = models.CharField(max_length=50)
+    quizname = models.CharField(max_length=500)

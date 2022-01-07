@@ -88,8 +88,6 @@ class StudentsProfileForm(forms.ModelForm):
         fields = [
             'project_score',
             'sem_average_marks',
-            'test_score',
-            'test_series_id',
             'language',
             'current_sem',
             'resume']
@@ -103,18 +101,6 @@ class StudentsProfileForm(forms.ModelForm):
             'sem_average_marks': forms.TextInput(
                 attrs={
                     'placeholder': 'sem_average_marks',
-                    'class': 'form-control'
-                }
-            ),
-            'test_score': forms.TextInput(
-                attrs={
-                    'placeholder': 'test_score',
-                    'class': 'form-control'
-                }
-            ),
-            'test_series_id': forms.TextInput(
-                attrs={
-                    'placeholder': 'test_series_id',
                     'class': 'form-control'
                 }
             ),
