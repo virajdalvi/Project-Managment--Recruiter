@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from functools import reduce
 
-from django.http import HttpResponse
+from django.http import HttpResponse, request
 from rest_framework.serializers import Serializer
 from .models import Sreg, StudentsProfile
 from .models import Treg
@@ -143,11 +143,10 @@ def registertr(request):
 
 
 def slogin(request):
-    global temp1, temp2
+    global temp1, temp2, get_username
     print("temp", temp1)
     print("temp2", temp2)
     sreg = Sreg()
-
     if request.method == 'POST':
         print("entered if")
         u = []
@@ -178,7 +177,6 @@ def slogin(request):
 
         username = request.POST["username"]
         password = request.POST["password"]
-
         user = auth.authenticate(username=username, password=password)
         print('user', user)
 
@@ -186,11 +184,13 @@ def slogin(request):
 
         i = 0
         while i < k:
-            print("entered while")
+
             #print('res[i],res2[i] ',res[i],res2[i])
             if res[i] == username and res2[i] == password:
                 print('login Successfull')
                 auth.login(request, user)
+                get_username = username
+                calculate_eq(request, get_username)
                 return render(request, 'sdash.html')
             i += 1
 
@@ -240,7 +240,6 @@ def tlogin(request):
         password = request.POST["password"]
 
         user = auth.authenticate(username=username, password=password)
-        print('user', user)
         i = 0
         k = len(res)
         while i < k:
@@ -274,7 +273,6 @@ def miniprojview(request):
     newprojs = Newproj.objects.all()
     # str(current_user)))
     for i in newprojs:
-        print('Entered for')
 
         print(str(i.Teacher_username))
 
@@ -283,8 +281,8 @@ def miniprojview(request):
     h = []
     for i in newprojs:
         g.append(i.Teacher_username.split(","))
-    single_list1 = reduce(lambda x, y: x+y, g)
-    print(single_list1)
+    #single_list1 = reduce(lambda x, y: x+y, g)
+    # print(single_list1)
     h = zip(g, newprojs)
     h = list(h)
     result = []
@@ -292,10 +290,12 @@ def miniprojview(request):
         if current_user in new[0]:
             result.append(new[1])
 
-    return render(request, 'miniprojview.html', {'current_user': current_user, 'newprojs': newprojs, 'single_list1': single_list1, 'result': result})
+    return render(request, 'miniprojview.html', {'current_user': current_user, 'result': result})
 
 
 def sdash(request):
+    global get_username
+    calculate_eq(request, get_username)
     return render(request, 'sdash.html')
 
 
@@ -308,10 +308,15 @@ def sprojview(request):
     print('current user : ', current_user)
     print('newprojs : ', newprojs)
     f = []
+    single_list = []
     for i in newprojs:
         f.append(i.Project_members.split(","))
-    single_list = reduce(lambda x, y: x+y, f)
-    print(single_list)
+    if len(f) != 0:
+
+        single_list = reduce(lambda x, y: x+y, f)
+        print(single_list)
+    else:
+        single_list = []
     # for i in newprojs:
     # if current_user == i.Username:
     #print('Entered if ')
@@ -340,6 +345,7 @@ def grades(request, pk):
         suggestions = request.POST["suggestions"]
         avgtotal = request.POST["avgtotal"]
         endorsement = request.POST["endorsement"]
+        print('*Value*', endorsement)
         endorsement = int(endorsement)
         gr = Grade.objects.create(
             pid=pid, suggestions=suggestions, avgtotal=avgtotal, endorsement=endorsement)
@@ -389,7 +395,7 @@ def editproj(request, pk):
     current_user = str(request.user)
     newprojs = Newproj.objects.all()
     if request.method == 'POST':
-        print('Entered if')
+
         form = NewprojForm(request.POST, instance=ins)
         if form.is_valid():
             form.save()
@@ -446,16 +452,55 @@ def student_profile2(request):
     return render(request, 'slogin.html')
 
 
-def edit_profile(request):
+def edit_profile(request, username):
     global temp1, temp2
-    e_profile = get_object_or_404(StudentsProfile, student_id=temp1)
+    e_profile = get_object_or_404(StudentsProfile, student_username=username)
     edit_profile = StudentsProfile.objects.filter(
-        student_id=temp1).values()
+        student_username=username).values()
     if request.method == "POST":
-        form = EditForm(request.POST, instance=e_profile)
+        form = StudentsProfileForm(request.POST, instance=e_profile)
         if form.is_valid():
             form.save()
             return render(request, 'sdash.html')
     else:
-        form = EditForm(instance=e_profile)
-        return render(request, 'emember.html', {'form': form, 'events': events, 'current_user': current_user, 'teams': teams, 'members': members})
+        form = StudentsProfileForm(instance=e_profile)
+        return render(request, 'edit_profile.html', {'form': form})
+
+
+def calculate_eq(request, username):
+    print('***', username)
+    sem_average = StudentsProfile.objects.get(student_username=username)
+    sem_marks = sem_average.sem_average_marks
+    print("Final scores")
+    print(sem_marks)
+    test_score = Testscore.objects.all().filter(username=username)
+    t_score = 0
+    count = 0
+    for i in test_score:
+        t_score += i.score
+    if len(test_score) != 0:
+        t_score = t_score/len(test_score)
+    else:
+        t_score = 0
+    print(t_score)
+    project_member_list = []
+    p_list = []
+    project = Newproj.objects.all()
+    for i in project:
+        project_member_list.append(i.Project_members.split(","))
+    p_list = list(zip(project_member_list, project))
+    result1 = []
+    for new in p_list:
+        if username in new[0] or username == new[1].Username:
+            result1.append(new[1].id)
+    grade = Grade.objects.all()
+    project_score = 0
+    for g in grade:
+        if g.pid in result1:
+            project_score += g.avgtotal
+    if len(result1) != 0:
+        project_score = project_score/len(result1)
+    else:
+        project_score = 0
+    print(project_score)
+    print("EQ", round(sem_marks+project_score+t_score))

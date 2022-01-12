@@ -60,6 +60,7 @@ class StudentsProfile(models.Model):
     sem_average_marks = models.IntegerField()
     language = models.CharField(max_length=100)
     current_sem = models.CharField(max_length=30)
+    eq=models.IntegerField(default=0)
     resume = models.FileField(upload_to="resumes/")
 
 

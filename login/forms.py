@@ -86,18 +86,13 @@ class StudentsProfileForm(forms.ModelForm):
     class Meta:
         model = StudentsProfile
         fields = [
-            'project_score',
             'sem_average_marks',
             'language',
             'current_sem',
             'resume']
+
+        '''
         widgets = {
-            'project_score': forms.TextInput(
-                attrs={
-                    'placeholder': 'project_score',
-                    'class': 'form-control'
-                }
-            ),
             'sem_average_marks': forms.TextInput(
                 attrs={
                     'placeholder': 'sem_average_marks',
@@ -110,14 +105,20 @@ class StudentsProfileForm(forms.ModelForm):
                     'class': 'form-control'
                 }
             ),
-            'current_seme': forms.TextInput(
+            'current_sem': forms.TextInput(
                 attrs={
                     'placeholder': 'current_sem',
                     'class': 'form-control'
                 }
+            ),
+            'resume': forms.FileField(
+                attrs={
+                    'placeholder': 'resume',
+                    'class': 'form-control'
+                }
             )
 
-        }
+        }'''
 
 
 class New_projForm(forms.Form):

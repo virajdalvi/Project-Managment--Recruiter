@@ -167,7 +167,9 @@
       if (ele[1].checked) {
         endorsement = 5
       }
-
+      else {
+        endorsement = 0
+      }
       let m1 = document.getElementsByName("m1")[0].value;
       let m2 = document.getElementsByName("m2")[0].value;
       let m3 = document.getElementsByName("m3")[0].value;
@@ -176,7 +178,7 @@
       //console.log(sum)
       let avgtotal = Math.floor(sum / 5);
       document.getElementsByName("avgtotal")[0].value = avgtotal;
-      document.getElementsByName("endorsement")[0].value = endorsement;
+      document.getElementsByName("endorsement")[0].value = endrosment;
     }
   </script>
   <script>

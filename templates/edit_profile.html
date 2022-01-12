@@ -18,42 +18,20 @@
 </head>
 
 <body>
-    <form action="student_profile2" method="post" enctype="multipart/form-data">
+    <form method="POST">
         {% csrf_token %}
-        <div class="row mt-4">
-            <div class="col">
-                <input type="sem_average_marks" class="form-control" placeholder="sem_average_marks"
-                    name=sem_average_marks required>
-            </div>
-        </div>
-        <br>
+        {% for field in form %}
+        <div class="form-group row">
+            <label for="id_{{ field.name }}" class="col-2 col-form-label ml-4">{{ field.label }}</label>
 
-        <div class="row mt-4">
             <div class="col">
-                <input type="language" class="form-control" placeholder="language" name=language required>
-            </div>
-        </div>
-        <div class="row mt-4">
-            <div class="col">
-                <input type="current_sem " class="form-control" placeholder="current_sem" name=current_sem required>
-            </div>
-        </div>
-        <!--To upload files-->
-        <div class="row mt-4">
-            <div class="col">
-                <div class="middle">
-                    <label for="resume">resume</label>
-                    <input type="file" id="resume" name="resume" multiple><br><br>
-                </div>
-            </div>
-        </div>
-        <!--submit button-->
-        <div class="row mt-4">
-            <div class="col">
-                <input type="submit" value="submit">
+                {{ field }}
             </div>
         </div>
 
+
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Edit</button>
     </form>
 </body>
 

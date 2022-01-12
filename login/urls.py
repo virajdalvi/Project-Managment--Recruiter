@@ -41,5 +41,7 @@ urlpatterns = [
         views.Student_profile, name='Student_profile'),
     path('registerstud/student_profile2',
          views.student_profile2, name='student_profile2'),
+    url(r'^edit_profile/(?P<username>\w+)$',
+        views.edit_profile, name='edit_profile'),
 
 ]
