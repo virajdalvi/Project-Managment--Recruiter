@@ -8,3 +8,4 @@ In the Teacher’s section, the teacher is shown the list of projects they have 
 
 This platform helps students and Teacher to add, view and grade projects on one place which saves their time that is spent on switching to multiple platforms to get the work done. It also helps Students to keep a systematic record of all their project submissions and project grades.
 # Project-Managment--Recruiter
+# Project-Managment--Recruiter
